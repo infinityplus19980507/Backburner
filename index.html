@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Backburner</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="hero">
+        <p class="eyebrow">Backburner MVP</p>
+        <h1>Dump ideas in. Pull quick wins out.</h1>
+        <p class="hero-copy">
+          A lightweight ADHD-friendly space for saving task names and small next
+          steps without turning them into clutter.
+        </p>
+      </header>
+
+      <main class="card flow-card">
+        <section id="auth-panel" class="auth-panel">
+          <div class="card-heading">
+            <div>
+              <p class="section-label">Private Access</p>
+              <h2>Sign in to your Backburner</h2>
+            </div>
+          </div>
+
+          <form id="auth-form" class="stack">
+            <label class="field">
+              <span>Email</span>
+              <input
+                id="auth-email"
+                name="email"
+                type="email"
+                placeholder="you@example.com"
+                required
+              />
+            </label>
+
+            <button class="primary-button" type="submit">Send magic link</button>
+          </form>
+
+          <p id="auth-message" class="auth-message">
+            Your tasks and notes will stay tied to your account.
+          </p>
+        </section>
+
+        <div id="app-content" class="hidden">
+        <div class="top-utility-bar">
+          <div id="sync-status" class="sync-status" aria-live="polite">Connecting…</div>
+          <div id="user-chip" class="user-chip hidden"></div>
+          <button id="logout-button" class="ghost-button utility-button hidden" type="button">
+            Log out
+          </button>
+          <button class="ghost-button utility-button" type="button" data-open-panel="all-panel">
+            Show All
+          </button>
+        </div>
+
+        <div class="launcher-grid" id="launcher-grid">
+          <button class="launcher-button dump-tone" type="button" data-open-panel="dump-panel">
+            <span class="section-label">Capture</span>
+            <strong>Dump</strong>
+            <span>Save a task name and break it into a few small steps.</span>
+          </button>
+
+          <button class="launcher-button quick-tone" type="button" data-open-panel="quick-panel">
+            <span class="section-label">Do One Thing</span>
+            <strong>Quick Win</strong>
+            <span>Spin to the number of minutes you have and get one matching step.</span>
+          </button>
+        </div>
+
+        <section id="dump-panel" class="panel hidden">
+          <div class="card-heading">
+            <div>
+              <p class="section-label">Capture</p>
+              <h2>Dump</h2>
+            </div>
+            <div class="item-actions">
+              <button id="seed-demo" class="ghost-button" type="button">
+                Load demo data
+              </button>
+              <button class="ghost-button" type="button" data-close-panel>
+                Back
+              </button>
+            </div>
+          </div>
+
+          <form id="dump-form" class="stack">
+            <label class="field">
+              <span>Name</span>
+              <input
+                id="dump-title"
+                name="title"
+                type="text"
+                placeholder="Research standing desks"
+                required
+              />
+            </label>
+
+            <label class="field">
+              <span>Subtask flow</span>
+              <select id="task-mode" name="taskMode">
+                <option value="sequential" selected>Do in order</option>
+                <option value="flexible">Can be done in any order</option>
+              </select>
+            </label>
+
+            <div class="subtask-builder">
+              <div class="card-heading compact">
+                <div>
+                  <p class="section-label">Break It Down</p>
+                  <h3>Subtasks</h3>
+                </div>
+                <button id="add-subtask" class="ghost-button" type="button">
+                  Add subtask
+                </button>
+              </div>
+
+              <div id="subtask-list" class="stack"></div>
+            </div>
+
+            <button class="primary-button" type="submit">Save to backburner</button>
+          </form>
+        </section>
+
+        <section id="quick-panel" class="panel hidden">
+          <div class="card-heading">
+            <div>
+              <p class="section-label">Execute</p>
+              <h2>Quick Win</h2>
+            </div>
+            <button class="ghost-button" type="button" data-close-panel>
+              Back
+            </button>
+          </div>
+
+          <div id="quick-time-screen" class="stack">
+            <form id="quick-win-form" class="stack">
+              <div class="field">
+                <span>How many minutes do you have?</span>
+                <div class="minute-picker-shell">
+                  <div class="minute-wheel-frame">
+                    <div id="minute-picker" class="minute-picker" aria-live="polite"></div>
+                  </div>
+                </div>
+              </div>
+
+              <button class="primary-button secondary-tone" type="submit">
+                Find a quick win
+              </button>
+            </form>
+          </div>
+
+          <div id="quick-cards-screen" class="stack hidden">
+            <div class="item-actions">
+              <button id="back-to-time" class="ghost-button" type="button">
+                Change minutes
+              </button>
+            </div>
+            <div id="quick-win-result" class="quick-win-result empty-state">
+              Drag the minute wheel to your time and the app will deal you swipeable task cards.
+            </div>
+          </div>
+        </section>
+
+        <section id="all-panel" class="panel hidden">
+          <div class="card-heading">
+            <div>
+              <p class="section-label">Organize</p>
+              <h2>Show All</h2>
+            </div>
+            <button class="ghost-button" type="button" data-close-panel>
+              Back
+            </button>
+          </div>
+
+          <div id="all-list-screen" class="stack">
+            <div id="items-board" class="items-board empty-state">
+              No items yet. Use Dump to create your first backburner task.
+            </div>
+          </div>
+
+          <div id="all-detail-screen" class="stack hidden">
+            <div class="item-actions">
+              <button id="back-to-list" class="ghost-button" type="button">
+                Back to list
+              </button>
+            </div>
+            <div id="item-detail" class="item-detail empty-state">
+              Select a task to open it and edit subtasks or notes.
+            </div>
+          </div>
+        </section>
+        </div>
+      </main>
+    </div>
+
+    <div id="image-viewer" class="image-viewer hidden" aria-hidden="true">
+      <div class="image-viewer-backdrop" data-close-viewer></div>
+      <div class="image-viewer-panel">
+        <button id="close-viewer" class="ghost-button" type="button">Close</button>
+        <div id="image-viewer-main" class="image-viewer-main"></div>
+        <div id="image-viewer-strip" class="image-viewer-strip"></div>
+      </div>
+    </div>
+
+    <template id="subtask-template">
+      <div class="subtask-row">
+        <input
+          class="subtask-input"
+          type="text"
+          placeholder="Find two desk inspiration photos"
+        />
+        <select class="subtask-minutes">
+          <option value="5">5 min</option>
+          <option value="10">10 min</option>
+          <option value="15" selected>15 min</option>
+          <option value="30">30 min</option>
+          <option value="45">45 min</option>
+        </select>
+        <button class="icon-button remove-subtask" type="button" aria-label="Remove subtask">
+          ×
+        </button>
+      </div>
+    </template>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
